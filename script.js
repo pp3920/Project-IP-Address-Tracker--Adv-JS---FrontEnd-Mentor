@@ -1,6 +1,6 @@
-const input = document.querySelector(".input");
-const arrow = document.querySelector(".arrow");
-const list = document.querySelectorAll(".info");
+const input = document.querySelector("input");
+const arrow = document.querySelector("arrow");
+const list = document.querySelectorAll("info");
 
 let marker = null; // IMPORTANT
 
@@ -23,43 +23,43 @@ function sendRequest() {
     fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=at_zL8x2lD0EwuysaAW3w1jSMm3m0e4L&ipAddress=${ip}`)
     .then((response) => response.json())
     .then((responseData) => {
-        console.log(responseData);
-        // if (responseData.code === 422) {
-        //     alert("Invalid IP Address");
-        //     return;
-        })
-    }
+        //console.log(responseData);
+        if (responseData.code === 422) {
+            alert("Invalid IP Address");
+            return;
+        }
 
-        // UI update
-        // list[0].innerHTML = responseData.ip;
-        // list[1].innerHTML =
-        //     responseData.location.city + ", " +
-        //     responseData.location.region + " " +
-        //     responseData.location.country;
+          //  UI update
+        list[0].innerHTML = responseData.ip;
+        list[1].innerHTML =
+            responseData.location.city + ", " +
+            responseData.location.region + " " +
+            responseData.location.country;
 
-        // list[2].innerHTML = "UTC " + responseData.location.timezone;
-        // list[3].innerHTML = responseData.isp;
+        list[2].innerHTML = "UTC " + responseData.location.timezone;
+        list[3].innerHTML = responseData.isp;
 
-        // Map update
-        // const lat = responseData.location.lat;
-        // const lng = responseData.location.lng;
+        //Map update
+        const lat = responseData.location.lat;
+        const lng = responseData.location.lng;
 
-        // map.setView([lat, lng], 13);
+        map.setView([lat, lng], 13);
 
         // remove old marker
-//         if (marker !== null) {
-//             map.removeLayer(marker);
-//         }
+        if (marker !== null) {
+            map.removeLayer(marker);
+        }
 
-//         // add new marker
-//         marker = L.marker([lat, lng]).addTo(map)
-//             .bindPopup(responseData.ip)
-//             .openPopup();
-//     })
-//     .catch((error) => {
-//         console.error("Error:", error);
-//     });
-// }
+        // add new marker
+        marker = L.marker([lat, lng]).addTo(map)
+            .bindPopup(responseData.ip)
+            .openPopup();
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
+}
+
 
 // Click event
 //arrow.addEventListener("click", sendRequest);
